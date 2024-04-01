@@ -6,8 +6,58 @@
     <title>Add Products</title>
 </head>
 <body>
-<section>
-<h1>Add Product</h1>
+<section class="bg-secondary-subtle">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card mt-3 mb-3">
+                    <div class="card-header h4 bg-success text-white text-center">Add Products</div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productName" class="fw-semibold text-muted">Product Name:</label>
+                                    <input type="text" class="form-control mt-1" id="productName">
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productCategory" class="fw-semibold text-muted">Category:</label>
+                                    <select class="form-control mt-1" id="productCategory">
+                                        <option>Select category</option>
+                                        <option>Category 1</option>
+                                        <option>Category 2</option>
+                                        <option>Category 3</option>
+                                        <!-- Add more categories as needed -->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group my-2">
+                                <label for="productDescription" class="fw-semibold text-muted">Description:</label>
+                                <textarea class="form-control mt-1" id="productDescription" rows="2"></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productPrice" class="fw-semibold text-muted">Price:</label>
+                                    <input type="number" class="form-control mt-1" id="productPrice">
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productStock" class="fw-semibold text-muted">Stock:</label>
+                                    <input type="number" class="form-control mt-1" id="productStock">
+                                </div>
+                            </div>
+
+                            <div class="form-group my-2">
+                                <label for="productImage" class="fw-semibold text-muted">Product Image:</label>
+                                <input type="file" class="form-control mt-1" id="productImage">
+                            </div>
+                            <button type="submit" class="btn btn-success col-12 mt-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 </body>
 </html>

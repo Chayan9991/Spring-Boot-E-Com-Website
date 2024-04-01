@@ -15,4 +15,9 @@ public class AdminController {
     public String addProduct(){
         return "./admin_dashboard/add_product";
     }
+
+    @GetMapping("/admin/category")
+    public String category(){
+        return "./admin_dashboard/category";
+    }
 }
