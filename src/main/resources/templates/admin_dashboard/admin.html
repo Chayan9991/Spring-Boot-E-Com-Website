@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="/base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+
+<section>
+    <div class="container mt-3">
+        <h5 class="fw-semibold text-center">Admin Dashboard</h5>
+    </div>
+    <div class="container mt-5">
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 gx-md-4 gx-lg-5">
+            <!-- Add Product -->
+            <div class="col mb-3">
+                <a href="add_product.html" class="card custom-card text-center shadow text-decoration-none">
+                    <div class="card-body">
+                        <i class="icon text-primary fas fa-plus-circle fa-2x mb-3"></i>
+                        <h6 class="card-title ">Add Product</h6>
+                    </div>
+                </a>
+            </div>
+            <!-- Category -->
+            <div class="col mb-3">
+                <a href="category.html" class="card custom-card text-center shadow text-decoration-none">
+                    <div class="card-body">
+                        <i class="icon text-warning fas fa-tags fa-2x mb-3"></i>
+                        <h6 class="card-title ">Category</h6>
+                    </div>
+                </a>
+            </div>
+            <!-- View Product -->
+            <div class="col mb-3">
+                <a href="view_product.html" class="card custom-card text-center shadow text-decoration-none">
+                    <div class="card-body">
+                        <i class="icon text-muted fas fa-eye fa-2x mb-3"></i>
+                        <h6 class="card-title">View Product</h6>
+                    </div>
+                </a>
+            </div>
+            <!-- Orders -->
+            <div class="col mb-3">
+                <a href="orders.html" class="card custom-card text-center shadow text-decoration-none">
+                    <div class="card-body">
+                        <i class="icon text-success fas fa-shopping-cart fa-2x mb-3"></i>
+                        <h6 class="card-title">Orders</h6>
+                    </div>
+                </a>
+            </div>
+            <!-- User -->
+            <div class="col mb-3">
+                <a href="user.html" class="card custom-card text-center shadow text-decoration-none">
+                    <div class="card-body">
+                        <i class="icon text-primary fas fa-user-circle fa-2x mb-3"></i>
+                        <h6 class="card-title">User</h6>
+                    </div>
+                </a>
+            </div>
+            <!-- Add Admin -->
+            <div class="col mb-3">
+                <a href="add_admin.html" class="card custom-card text-center shadow text-decoration-none">
+                    <div class="card-body">
+                        <i class="icon text-danger fas fa-user-shield fa-2x mb-3"></i>
+                        <h6 class="card-title ">Add Admin</h6>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+</html>

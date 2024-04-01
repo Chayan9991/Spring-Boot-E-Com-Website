@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+</head>
+<body>
+<section class="">
+    <!--    Search Bar-->
+    <div class="container-fluid bg-gradient bg-secondary-subtle pt-3 pb-2">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="">
+                    <div class="input-group">
+                        <input type="text" class="form-control rounded-2" name="search" placeholder="Search Products">
+                        <button class="btn btn-light btn-sm text-dark ms-3 col-md-2 rounded-2"><i
+                                class="fa-solid fa-magnifying-glass"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid min-vh-100">
+        <div class="row gx-3">
+            <div class="col-md-2 mt-4">
+                <div class="list-group">
+                    <!-- Displayed on larger screens -->
+                    <a href="#" class="fw-semibold small list-group-item list-group-item-action bg-primary text-white text-center d-none d-md-block" aria-current="false">
+                        Categories
+                    </a>
+                    <!-- Dropdown menu -->
+                    <div class="dropdown d-md-none">
+                        <button class="btn btn-primary dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categories
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a href="#" class="dropdown-item small">All</a>
+                            <a href="#" class="dropdown-item small">Electronics</a>
+                            <a href="#" class="dropdown-item small">Smartphone</a>
+                            <a href="#" class="dropdown-item small">Clothes</a>
+                            <a href="#" class="dropdown-item small">Kitchen</a>
+                        </div>
+                    </div>
+                    <!-- List items displayed on larger screens -->
+                    <a href="#" class="small list-group-item list-group-item-action d-md-block d-none">All</a>
+                    <a href="#" class="small list-group-item list-group-item-action d-md-block d-none">Electronics</a>
+                    <a href="#" class="small list-group-item list-group-item-action d-md-block d-none">Smartphone</a>
+                    <a href="#" class="small list-group-item list-group-item-action d-md-block d-none">Clothes</a>
+                    <a href="#" class="small list-group-item list-group-item-action d-md-block d-none">Kitchen</a>
+                </div>
+            </div>
+
+            <div class="col-md-10 mt-4 mx-auto">
+                <div class="card">
+                    <div class="card-header text-center text-muted fw-semibold">
+                        Products
+                    </div>
+                    <div class="card-body">
+                        <div class="row gx-md-3 gx-1 gy-3">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="images/laptop.jpg" height="100px" width="85px" class="img-fluid" alt="Biscuits">
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <p class="small fw-semibold">Hp 14s Laptop</p>
+                                        </div>
+                                        <div class="row text-center mt-2">
+                                            <div class="col">
+                                                <span class="small text-decoration-line-through text-muted">₹ 50,000</span>
+                                                <span class="small fw-semibold text-success">25% off</span>
+                                                <p class="fw-semibold small">₹ 30,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="/view-product" class="btn btn-primary btn-sm">View Details >></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="images/laptop.jpg" height="100px" width="85px" class="img-fluid" alt="Biscuits">
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <p class="small fw-semibold">Hp 14s Laptop</p>
+                                        </div>
+                                        <div class="row text-center mt-2">
+                                            <div class="col">
+                                                <span class="small text-decoration-line-through text-muted">₹ 50,000</span>
+                                                <span class="small fw-semibold text-success">25% off</span>
+                                                <p class="fw-semibold small">₹ 30,000</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="/view-product" class="btn btn-primary btn-sm">View Details >></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add more product cards here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

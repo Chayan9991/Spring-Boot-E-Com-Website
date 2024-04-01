@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5 ">
+        <div class="row g-5">
+            <!-- Image Column (Hidden on Smaller Devices) -->
+            <div class="col-md-6 d-none d-md-block">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <!-- Login Form Column -->
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header text-center">
+                        <span class="h3 fw-semibold">Login</span>
+                        <span th:if="${isAdmin}" th:text="'Admin'" class="small text-warning fw-semibold"></span>
+                    </div>
+
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label h6">Email address<i
+                                        class="text-danger fw-bold">*</i></label>
+                                <input required type="email" class="form-control" id="exampleInputEmail1"
+                                       aria-describedby="emailHelp">
+                                <div id="emailHelp" class="form-text small">We'll never share your email with anyone else.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label h6">Password<i
+                                        class="text-danger fw-bold">*</i></label>
+                                <input required type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <button type="submit" th:if="${isAdmin}" class="btn btn-warning col-md-12 ">Login</button>
+                            <button type="submit" th:unless="${isAdmin}" class="btn btn-primary col-md-12">Login</button>
+
+                        </form>
+                    </div>
+                    <div th:if="${isAdmin}" class="card-footer text-center small">
+                        Admin Registration only done through database
+                    </div>
+                    <div th:unless="${isAdmin}" class="card-footer text-center small">
+                        <a href="#" class="text-decoration-none">Forget Password</a><br/>
+                        Don't have an account ? <a href="/register" class="text-decoration-none">Create One</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+</body>
+</html>

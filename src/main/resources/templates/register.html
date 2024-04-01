@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5 ">
+        <div class="row g-5">
+            <!-- Image Column (Hidden on Smaller Devices) -->
+            <div class="col-md-6 d-none d-md-block">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
+            </div>
+            <!-- Login Form Column -->
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header text-center fw-semibold h3">Register</div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="fullName" class="small">Full Name<i class="text-danger fw-bold">*</i></label>
+                                    <input required type="text" id="fullName" class="form-control" name="fullname">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="phone" class="small">Mobile No.<i class="text-danger fw-bold">*</i></label>
+                                    <input required type="text" id="phone" class="form-control" name="phone">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="email" class="small">Email <i class="text-danger fw-bold">*</i></label>
+                                    <input required type="email" id="email" class="form-control" name="email">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="address" class="small">Address</label>
+                                    <input type="text" id="address" class="form-control" name="address">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="city" class="small">City</label>
+                                    <input type="text" id="city" class="form-control" name="city">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="state" class="small">State</label>
+                                    <input type="text" id="state" class="form-control" name="state">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="pincode" class="small">Pincode<i class="text-danger fw-bolder">*</i></label>
+                                    <input required type="text" id="pincode" class="form-control" name="pincode">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="password" class="small">Password<i class="text-danger fw-bolder">*</i></label>
+                                    <input required type="password" id="password" class="form-control" name="password">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="confirm-password" class="small">Confirm Password</label>
+                                    <input type="text" id="confirm-password" class="form-control" name="confirm-password">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="profile-image" class="small">Profile Picture</label>
+                                    <input type="file" id="profile-image" class="form-control" name="profile-image">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary col-md-12">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

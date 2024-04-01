@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 pt-3 mt-2 mb-5">
+                <div class="card shadow">
+                    <h5 class="card-header text-center bg-success text-white">Product Details</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="images/laptop.jpg" height="270px" width="230px" class="img-fluid"
+                                     alt="Product Image">
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-center fw-semibold">Hp 14s Laptop</h5>
+
+                                <div class="mb-2">
+                                    <span class="fw-semibold small">Description:</span><br/>
+                                    <span class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Sed vitae justo quis magna tristique tempor.</span>
+                                </div>
+
+                                <div class="mb-2">
+                                    <span class="fw-semibold small">Product Status:</span>
+                                    <span class=""><span class="bg-success text-white badge ">Available</span>
+                                        <span class="bg-warning text-white badge ">Out Of Stock</span>
+                                    </span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="fw-semibold small">Category:</span>
+                                    <span class="small">Electronics</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="fw-semibold small">Policy:</span>
+                                    <span class="small">7 days Replacement & Return</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="fw-semibold">Price:</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="fw-semibold">₹ 52,000</span>&nbsp;&nbsp;
+                                    <span class="small text-muted text-decoration-line-through">₹ 60,000</span>
+                                    <span class="small text-success fw-semibold">20% off</span>
+                                </div>
+                                <div class=" d-flex justify-content-evenly mt-3">
+                                    <div class="text-danger text-center small">
+                                        <i class="fas fa-money-bill-wave fa-2x"></i>
+                                        <p class="small">Cash on delivery</p>
+                                    </div>
+                                    <div class="text-danger text-center small">
+                                        <i class="fas fa-undo-alt fa-2x"></i>
+                                        <p class="small">Return</p>
+                                    </div>
+                                    <div class="text-danger text-center small">
+                                        <i class="fas fa-truck-moving fa-2x"></i>
+                                        <p class="small">Free Shipping</p>
+                                    </div>
+                                </div>
+                                <button class="btn fw-semibold btn-danger text-white col-12">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
