@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Discount</title>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 mt-2">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white text-center fw-semibold h4">Discount</div>
+                    <div class="card-body">
+                        <form method="post" action="/admin/handleDiscount">
+                            <div class="mb-3">
+                                <label class="form-label" for="originalPrice">Original Price</label>
+                                <input th:name="originalPrice" th:value="${discountProduct.getPrice()}" id="originalPrice" type="text" class="form-control">
+                                <input type="text" hidden name="productId" th:value="${discountProduct.getId()}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="discount">Discount %</label>
+                                <div class="d-flex">
+                                    <input name="discount" id="discount" type="text" class="form-control" placeholder="0">
+                                    <button type="button" onclick="var originalPrice = parseFloat(document.getElementById('originalPrice').value); var discountPercentage = parseFloat(document.getElementById('discount').value); if (!isNaN(originalPrice) && !isNaN(discountPercentage)) { if (discountPercentage >= 0 && discountPercentage <= 100) { var discountedPrice = originalPrice - (originalPrice * (discountPercentage / 100)); document.getElementById('discountedPrice').textContent = discountedPrice.toFixed(2); } else { alert('Discount percentage must be between 0 and 100.'); } } else { alert('Please enter valid numbers for Original Price and Discount Percentage.'); }" class="btn btn-primary">Calculate</button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="small fw-semibold">Discounted Price: </span>
+                                <span id="discountedPrice">0</span>
+                            </div>
+                            <button type="submit" class="btn btn-secondary col-12">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script th:inline="javascript">
+    function calculateDiscountedPrice() {
+        var originalPrice = parseFloat(document.getElementById("originalPrice").value);
+        var discountPercentage = parseFloat(document.getElementById("discount").value);
+
+        if (!isNaN(originalPrice) && !isNaN(discountPercentage)) {
+            var discountedPrice = originalPrice - (originalPrice * (discountPercentage / 100));
+            console.log(discountedPrice)
+            document.getElementById("discountedPrice").textContent = discountedPrice.toFixed(2);
+        } else {
+            alert("Please enter valid numbers for Original Price and Discount Percentage.");
+        }
+    }
+</script>
+</body>
+</html>

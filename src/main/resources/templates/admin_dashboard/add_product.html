@@ -11,45 +11,54 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card mt-3 mb-3">
-                    <div class="card-header h4 bg-success text-white text-center">Add Products</div>
+                    <div class="card-header h4 bg-success text-white text-center">Add Products
+                        <th:block th:if="${session.successMsg}" class="small">
+                            <p class="text-dark small" th:text="${session.successMsg}"></p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                        <th:block th:if="${session.errorMsg}" class="small">
+                            <p class="text-warning small" th:text="${session.errorMsg}"></p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                    </div>
                     <div class="card-body">
-                        <form>
+                        <form action="/admin/add_product" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="form-group col-md-6 my-2">
-                                    <label for="productName" class="fw-semibold text-muted">Product Name:</label>
-                                    <input type="text" class="form-control mt-1" id="productName">
+                                    <label for="productName" class="fw-semibold text-muted">Product Name:<span class="text-danger fw-bold">*</span></label>
+                                    <input required type="text" name="name" class="form-control mt-1" id="productName">
                                 </div>
                                 <div class="form-group col-md-6 my-2">
-                                    <label for="productCategory" class="fw-semibold text-muted">Category:</label>
-                                    <select class="form-control mt-1" id="productCategory">
-                                        <option>Select category</option>
-                                        <option>Category 1</option>
-                                        <option>Category 2</option>
-                                        <option>Category 3</option>
-                                        <!-- Add more categories as needed -->
+                                    <label for="productCategory" class="fw-semibold text-muted">Category: <span class="text-danger fw-bold">*</span></label>
+                                    <select required class="form-control mt-1 " id="productCategory" name="categoryId">
+                                        <option value="">---Select category---</option>
+                                        <option th:each="category : ${categoryList}" th:value="${category.id}" th:text="${category.name}"></option>
                                     </select>
                                 </div>
+
                             </div>
 
                             <div class="form-group my-2">
-                                <label for="productDescription" class="fw-semibold text-muted">Description:</label>
-                                <textarea class="form-control mt-1" id="productDescription" rows="2"></textarea>
+                                <label for="productDescription" class="fw-semibold text-muted">Description: <span class="text-danger fw-bold">*</span></label>
+                                <textarea required name="description" class="form-control mt-1" id="productDescription" rows="2"></textarea>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-6 my-2">
-                                    <label for="productPrice" class="fw-semibold text-muted">Price:</label>
-                                    <input type="number" class="form-control mt-1" id="productPrice">
+                                    <label for="productPrice" class="fw-semibold text-muted">Price: <span class="text-danger fw-bold">*</span></label>
+                                    <input required name="price" type="number" class="form-control mt-1" id="productPrice">
                                 </div>
                                 <div class="form-group col-md-6 my-2">
-                                    <label for="productStock" class="fw-semibold text-muted">Stock:</label>
-                                    <input type="number" class="form-control mt-1" id="productStock">
+                                    <label for="productStock" class="fw-semibold text-muted">Stock: <span class="text-danger fw-bold">*</span></label>
+                                    <input required name="stock" type="number" class="form-control mt-1" id="productStock">
                                 </div>
+                                <input hidden th:value="0" name="discount">
+                                <input hidden th:value="0" name="discountedPrice">
                             </div>
 
                             <div class="form-group my-2">
-                                <label for="productImage" class="fw-semibold text-muted">Product Image:</label>
-                                <input type="file" class="form-control mt-1" id="productImage">
+                                <label for="productImage" class="fw-semibold text-muted">Product Image: <span class="text-danger fw-bold">*</span></label>
+                                <input required type="file" name="file" class="form-control mt-1" id="productImage">
                             </div>
                             <button type="submit" class="btn btn-success col-12 mt-2">Submit</button>
                         </form>

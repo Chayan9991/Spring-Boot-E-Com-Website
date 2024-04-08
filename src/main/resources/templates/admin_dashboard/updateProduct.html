@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="/base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Product</title>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card mt-3 mb-3">
+                    <div class="card-header bg-success text-white text-center"><span class="h4">Update Product</span>
+                        <th:block th:if="${session.successMsg}" class="small">
+                            <p class="text-dark small" th:text="${session.successMsg}"></p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                        <th:block th:if="${session.errorMsg}" class="small">
+                            <p class="text-warning small" th:text="${session.errorMsg}"></p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/update_product" method="post" enctype="multipart/form-data">
+                            <input type="text" hidden th:value="${getProdDtls.getId()}" name="id">
+                            <input hidden th:value="0" name="discount">
+                            <input hidden th:value="0" name="discountedPrice">
+                            <div class="row">
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productName" class="fw-semibold text-muted">Product Name:<span class="text-danger fw-bold">*</span></label>
+                                    <input required th:value="${getProdDtls.getName()}" type="text" name="name" class="form-control mt-1" id="productName">
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productCategory" class="fw-semibold text-muted">Category: <span class="text-danger fw-bold">*</span></label>
+                                    <select required class="form-control mt-1 " id="productCategory" name="categoryId">
+                                        <option value="">---Select category---</option>
+                                        <option th:each="category : ${categoryList}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}"
+                                                th:selected="${category.id == getProdDtls.categoryId}"></option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group my-2">
+                                <label for="productDescription" class="fw-semibold text-muted">Description: <span class="text-danger fw-bold">*</span></label>
+                                <textarea th:text="${getProdDtls.getDescription()}" required name="description" class="form-control mt-1" id="productDescription" rows="2"></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productPrice" class="fw-semibold text-muted">Price: <span class="text-danger fw-bold">*</span></label>
+                                    <input th:value="${getProdDtls.getPrice()}" required name="price" type="number" class="form-control mt-1" id="productPrice">
+                                </div>
+                                <div class="form-group col-md-6 my-2">
+                                    <label for="productStock" class="fw-semibold text-muted">Stock: <span class="text-danger fw-bold">*</span></label>
+                                    <input th:value="${getProdDtls.getStock()}" required name="stock" type="number" class="form-control mt-1" id="productStock">
+                                </div>
+                            </div>
+
+                            <div class="form-group my-2">
+                                <label for="productImage" class="fw-semibold text-muted">Product Image:</label>
+                                <div class="d-flex mt-1">
+                                    <input type="file" name="file" class="form-control " id="productImage">
+                                    <img th:src="@{'/images/product_images/'+${getProdDtls.getProductImageName()}}" width="50px" height="50px">
+                                </div>
+
+                            </div>
+                            <button type="submit" class="btn btn-success col-12 mt-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

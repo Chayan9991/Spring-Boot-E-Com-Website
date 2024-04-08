@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="/base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>View Products</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid px-4 mt-4 mb-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-header text-center fw-semibold bg-warning">Product List
+                        <!-- Success message -->
+                        <th:block th:if="${session.successMsg}">
+                            <p class="text-success small" th:text="${session.successMsg}"></p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="text-muted fw-semibold">Sl.</th>
+                                    <th scope="col" class="text-muted fw-semibold">Image</th>
+                                    <th scope="col" class="text-muted fw-semibold">Name</th>
+                                    <th scope="col" class="text-muted fw-semibold">Category</th>
+                                    <th scope="col" class="text-muted fw-semibold">Description</th>
+                                    <th scope="col" class="text-muted fw-semibold">Actual Price</th>
+                                    <th scope="col" class="text-muted fw-semibold">Discount %</th>
+                                    <th scope="col" class="text-muted fw-semibold">Discounted Price</th>
+                                    <th scope="col" class="text-muted fw-semibold">Stock</th>
+
+                                    <th scope="col" class="text-muted fw-semibold">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody >
+                                <tr th:each="prod,p: ${getAllProducts}">
+                                    <td class="small">[[${p.count}]]</td>
+                                    <td><img th:src="@{'/images/product_images/'+${prod.productImageName}}" alt=""
+                                             width="50px" height="50px"></td>
+                                    <td class="small">[[${prod.name}]]</td>
+                                    <td class="small">
+                                        <span th:each="category : ${getProductCategory}"
+                                              th:if="${category.id == prod.categoryId}"
+                                              th:text="${category.name}"></span>
+                                    </td>
+                                    <td class="small" style="max-width: 200px; overflow-x: auto;">
+                                        <!-- Set max-width and overflow-x -->
+                                        [[${prod.description}]]
+                                    </td>
+                                    <td class="small">[[${prod.price}]]</td>
+                                    <td class="small">[[${prod.discount}]]%</td>
+                                    <td class="small">[[${prod.discountedPrice}]]</td>
+                                    <td class="small">[[${prod.stock}]]</td>
+                                    <td class="small">
+                                        <a th:href="@{'/admin/update_product/'+${prod.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+                                        <a th:href="@{'/admin/delete_product/'+${prod.id}}" class="btn btn-sm btn-danger">Delete</a>
+                                        <a th:href="@{'/admin/add_discount/'+${prod.id}}" class="btn btn-sm btn-success">Discount</a>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

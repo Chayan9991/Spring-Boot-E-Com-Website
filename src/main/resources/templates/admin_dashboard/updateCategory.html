@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="/base/base:: layout(~{::section},~{::title})">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+<section>
+    <div class="container-fluid px-4 mt-4 mb-4">
+        <div class="row ">
+            <div class="col-md-6 mb-3 offset-md-3">
+                <div class="card shadow">
+                    <div class="card-header text-center bg-dark text-white fw-semibold">Edit Category
+                        <th:block th:if="${session.successMsg}">
+                            <p id="success" class="text-success small" th:text="${session.successMsg}"></p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+                        <th:block th:if="${session.errorMsg}">
+                            <p id="error" class="text-danger small" th:text="${session.errorMsg}"></p>
+                            <th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+                        </th:block>
+
+                    </div>
+
+                    <div class="card-body">
+                        <form action="/admin/updateCategory" method="post" enctype="multipart/form-data">
+                            <input type="text" hidden name="id" th:value="${category.getId()}">
+                            <div class="">
+                                <label for="addCategoryName" class="text-muted fw-semibold mb-1">Name</label>
+                                <input type="text" name="name" class=" form-control mt-1"
+                                       th:value="${category.getName()}" id="addCategoryName">
+                            </div>
+                            <div class="mt-2">
+                                <label for="isActive" class="text-muted fw-semibold mb-1">Status</label>
+                                <div class="form-check small" id="isActive" >
+                                    <input value="true" class="form-check-input" type="radio" name="isActive"
+                                           id="flexRadioDefault1" th:checked="${category.getIsActive()==true}">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Active
+                                    </label>
+                                </div>
+                                <div class="form-check small">
+                                    <input type="hidden" name="existingImageName" th:value="${category.imageName}">
+                                    <input value="false" class="form-check-input" type="radio" name="isActive"
+                                           id="flexRadioDefault2" th:checked="${category.getIsActive()==false}">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Inactive
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="small">
+                                <label for="addCategoryImage" class="fw-semibold text-muted mt-2 mb-1">Add Image</label>
+                                <div class="d-flex">
+                                    <input type="file" name="file" class="form-control mt-1" id="addCategoryImage">
+                                    <img th:src="@{'/images/category_images/'+${category.imageName}}" width="50px" height="50px">
+                                </div>
+
+                            </div>
+                            <button class="btn btn-secondary btn-sm col-6 offset-3 mt-2" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
