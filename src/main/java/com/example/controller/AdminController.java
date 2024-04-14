@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/admin")
@@ -49,7 +50,16 @@ public class AdminController {
     @PostMapping("/saveCategory")
     public String saveCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
 
-        String imageName = file != null ? file.getOriginalFilename() : "NA";
+        String originalFileName = file.getOriginalFilename();
+        String extension = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
+
+        String categoryFile = category.getName().toLowerCase();
+
+        // Replace spaces with underscores
+        String formattedCategoryName = categoryFile.replaceAll(" ", "_");
+        formattedCategoryName = formattedCategoryName.replaceAll("[^a-zA-Z0-9_]", "");
+
+        String imageName = file != null ? formattedCategoryName.concat(extension) : "NA";
 
         category.setImageName(imageName);
 
@@ -114,8 +124,23 @@ public class AdminController {
     public String handleUpdateCategory(@ModelAttribute Category category, HttpSession session, @RequestParam("file") MultipartFile file) {
         Category singleCategory = categoryService.getCategoryById(category.getId());
 
-        String imageName = file != null && !file.isEmpty() ? file.getOriginalFilename() : singleCategory.getImageName();
+        String imageName;
 
+        if (file != null && !file.isEmpty()) {
+            String originalFileName = file.getOriginalFilename();
+            String extension = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
+            String categoryFile = category.getName().toLowerCase();
+
+            // Replace spaces with underscores
+            String formattedCategoryName = categoryFile.replaceAll(" ", "_");
+            String finalString = formattedCategoryName.replaceAll("[^a-zA-Z0-9_]", "");
+
+            imageName = finalString.concat(extension);
+        } else {
+            imageName = singleCategory.getImageName();
+        }
+
+        System.out.println(imageName);
         // Update the category attributes with the new data
         singleCategory.setImageName(imageName);
         singleCategory.setIsActive(category.getIsActive());
@@ -123,11 +148,30 @@ public class AdminController {
 
         Category updateCategory = categoryService.saveCategory(singleCategory);
 
-        if (updateCategory != null) {
-            session.setAttribute("successMsg", "Updated Successfully");
+        if (updateCategory == null) {
+            session.setAttribute("errorMsg", "Not Saved ! Internal Server Error");
         } else {
-            session.setAttribute("errorMsg", "Something Went Wrong");
+            try {
+                // Get the directory path
+                Path directoryPath = Paths.get("src/main/resources/static/images/category_images");
+
+                // Create the directory if it doesn't exist
+                if (!Files.exists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                }
+                // Get the destination file path
+                Path destinationPath = directoryPath.resolve(imageName);
+
+                // Copy the file to the destination path
+                Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("File copied successfully to: " + destinationPath);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            session.setAttribute("successMsg", "Updated Successfully");
         }
+
         return "redirect:/admin/category";
 
     }
@@ -144,9 +188,15 @@ public class AdminController {
     public String addProduct(@ModelAttribute Product product, HttpSession session, @RequestParam("file") MultipartFile file) {
 
         String originalProductName = file.getOriginalFilename();
-        String fileExtention = originalProductName.substring(originalProductName.lastIndexOf("."));
+        assert originalProductName != null;
+        String fileExtension = originalProductName.substring(originalProductName.lastIndexOf(".")).toLowerCase();
+        String productName = product.getName().toLowerCase();
+        // Replace spaces with underscores
+        String formattedProductName = productName.replaceAll(" ", "_");
+        formattedProductName = formattedProductName.replaceAll("[^a-zA-Z0-9_]", "");
+        String finalFileName = formattedProductName + fileExtension;
 
-        String productImageName = file != null ? product.getName().concat(fileExtention) : "NA";
+        String productImageName = file != null ? finalFileName : "NA";
 
         product.setProductImageName(productImageName);
         product.setDiscount(product.getDiscount());
@@ -215,13 +265,18 @@ public class AdminController {
         Product singleProduct = productService.getProductById(product.getId());
 
 
-
         String productImageName = "";
         if (file != null && !file.isEmpty()) {
             String originalProductName = file.getOriginalFilename();
             assert originalProductName != null;
-            String fileExtention = originalProductName.substring(originalProductName.lastIndexOf("."));
-            productImageName = product.getName().concat(fileExtention);
+            String fileExtension = originalProductName.substring(originalProductName.lastIndexOf(".")).toLowerCase();
+
+            String productName = singleProduct.getName().toLowerCase();
+            // Replace spaces with underscores
+            String formattedProductName = productName.replaceAll(" ", "_");
+            formattedProductName = formattedProductName.replaceAll("[^a-zA-Z0-9_]", "");
+
+            productImageName = formattedProductName + fileExtension;
         }
 
         String imageName = file != null && !file.isEmpty() ? productImageName : singleProduct.getProductImageName();
@@ -285,8 +340,8 @@ public class AdminController {
     }
 
     @PostMapping("/handleDiscount")
-    public String addDiscount(@RequestParam("productId") int id, @RequestParam("originalPrice") double originalPrice, @RequestParam("discount") double discount, Model model) {
-        double discountedPrice = originalPrice - (originalPrice * discount / 100);
+    public String addDiscount(@RequestParam("productId") int id, @RequestParam("originalPrice") double originalPrice, @RequestParam("discount") int discount, Model model) {
+        double discountedPrice = (originalPrice - (originalPrice * discount / 100));
         Product product = productService.getProductById(id);
         product.setDiscount(discount);
         product.setDiscountedPrice(discountedPrice);

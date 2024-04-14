@@ -22,7 +22,7 @@ public class Product {
     private double price ;
     private String description;
     private int stock;
-    private double discount;
+    private int discount;
     private double discountedPrice;
 
 }

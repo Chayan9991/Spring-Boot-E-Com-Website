@@ -3,7 +3,7 @@
       th:replace="base/base:: layout(~{::section},~{::title})">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Products</title>
 </head>
 <body>
 <section>
@@ -15,27 +15,27 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 d-flex justify-content-center align-items-center">
-                                <img src="images/laptop.jpg" height="270px" width="230px" class="img-fluid"
+                                <img th:src="@{'/images/product_images/'+${product.getProductImageName()}}" height="270px" width="230px" class="img-fluid"
                                      alt="Product Image">
                             </div>
                             <div class="col-md-6">
-                                <h5 class="text-center fw-semibold">Hp 14s Laptop</h5>
+                                <h5 class="text-center fw-semibold" th:text="${product.getName()}"></h5>
 
                                 <div class="mb-2">
                                     <span class="fw-semibold small">Description:</span><br/>
-                                    <span class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Sed vitae justo quis magna tristique tempor.</span>
+                                    <span class="small" th:text="${product.getDescription()}"></span>
                                 </div>
 
                                 <div class="mb-2">
                                     <span class="fw-semibold small">Product Status:</span>
-                                    <span class=""><span class="bg-success text-white badge ">Available</span>
-                                        <span class="bg-warning text-white badge ">Out Of Stock</span>
+                                    <span class="">
+                                        <span class="bg-success text-white badge" th:if="${product.getStock() > 0}">Available</span>
+                                        <span class="bg-warning text-white badge" th:if="${product.getStock() <= 0}">Out Of Stock</span>
                                     </span>
                                 </div>
                                 <div class="mb-2">
                                     <span class="fw-semibold small">Category:</span>
-                                    <span class="small">Electronics</span>
+                                    <span class="small" th:text="${category.getName()}"></span>
                                 </div>
                                 <div class="mb-2">
                                     <span class="fw-semibold small">Policy:</span>
@@ -43,9 +43,9 @@
                                 </div>
                                 <div class="mb-2">
                                     <span class="fw-semibold">Price:</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="fw-semibold">₹ 52,000</span>&nbsp;&nbsp;
-                                    <span class="small text-muted text-decoration-line-through">₹ 60,000</span>
-                                    <span class="small text-success fw-semibold">20% off</span>
+                                    <span class="fw-semibold" th:text="'₹'+${product.getDiscountedPrice()}"> 52,000</span>&nbsp;&nbsp;
+                                    <span class="small text-muted text-decoration-line-through" th:text="'₹'+${product.getPrice()}"> 60,000</span>
+                                    <span class="small text-success fw-semibold" th:text="${product.getDiscount()}+'% off'"></span>
                                 </div>
                                 <div class=" d-flex justify-content-evenly mt-3">
                                     <div class="text-danger text-center small">
@@ -61,7 +61,7 @@
                                         <p class="small">Free Shipping</p>
                                     </div>
                                 </div>
-                                <button class="btn fw-semibold btn-danger text-white col-12">Add To Cart</button>
+                                    <a th:href="@{'/add_to_cart/'+ ${product.getId()}}" class="btn fw-semibold btn-danger text-white col-12">Add To Cart</a>
                             </div>
                         </div>
                     </div>

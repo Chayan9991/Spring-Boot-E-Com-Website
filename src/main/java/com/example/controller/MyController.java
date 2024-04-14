@@ -12,10 +12,6 @@ public class MyController {
     public String home(){
         return "home";
     }
-    @GetMapping("/shop")
-    public String shop(){
-        return "shop";
-    }
 
 
     @GetMapping("/login")
@@ -29,8 +25,5 @@ public class MyController {
         return "register";
     }
 
-    @GetMapping("/view-product")
-    public String product(){
-        return "view-product";
-    }
+
 }
