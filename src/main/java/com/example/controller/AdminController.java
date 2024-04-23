@@ -261,64 +261,63 @@ public class AdminController {
     }
 
     @PostMapping("/update_product")
-    public String updateProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile file, HttpSession session) {
+    public String updateProduct(@ModelAttribute Product product, @RequestParam(value = "file", required = false) MultipartFile file, HttpSession session) {
         Product singleProduct = productService.getProductById(product.getId());
 
+        String imageName = singleProduct.getProductImageName(); // Default to the existing image name
 
-        String productImageName = "";
         if (file != null && !file.isEmpty()) {
-            String originalProductName = file.getOriginalFilename();
-            assert originalProductName != null;
-            String fileExtension = originalProductName.substring(originalProductName.lastIndexOf(".")).toLowerCase();
+            String originalFileName = file.getOriginalFilename();
+            if (originalFileName != null) {
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")).toLowerCase();
+                String productName = singleProduct.getName().toLowerCase();
+                // Replace spaces with underscores
+                String formattedProductName = productName.replaceAll(" ", "_");
+                formattedProductName = formattedProductName.replaceAll("[^a-zA-Z0-9_]", "");
 
-            String productName = singleProduct.getName().toLowerCase();
-            // Replace spaces with underscores
-            String formattedProductName = productName.replaceAll(" ", "_");
-            formattedProductName = formattedProductName.replaceAll("[^a-zA-Z0-9_]", "");
+                imageName = formattedProductName + fileExtension;
 
-            productImageName = formattedProductName + fileExtension;
-        }
+                try {
+                    // Get the directory path
+                    Path directoryPath = Paths.get("src/main/resources/static/images/product_images");
 
-        String imageName = file != null && !file.isEmpty() ? productImageName : singleProduct.getProductImageName();
-        try {
-            // Get the directory path
+                    // Create the directory if it doesn't exist
+                    if (!Files.exists(directoryPath)) {
+                        Files.createDirectories(directoryPath);
+                    }
+                    // Get the destination file path
+                    Path destinationPath = directoryPath.resolve(imageName);
 
-            Path directoryPath = Paths.get("src/main/resources/static/images/product_images");
+                    // Copy the file to the destination path
+                    Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("File copied successfully to: " + destinationPath);
 
-            // Create the directory if it doesn't exist
-            if (!Files.exists(directoryPath)) {
-                Files.createDirectories(directoryPath);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            // Get the destination file path
-            Path destinationPath = directoryPath.resolve(imageName);
-
-            // Copy the file to the destination path
-            Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("File copied successfully to: " + destinationPath);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        // Update the category attributes with the new data
+        // Update other product attributes
         singleProduct.setProductImageName(imageName);
         singleProduct.setName(product.getName());
         singleProduct.setDescription(product.getDescription());
         singleProduct.setPrice(product.getPrice());
         singleProduct.setStock(product.getStock());
         singleProduct.setCategoryId(product.getCategoryId());
-        singleProduct.setDiscountedPrice(product.getPrice());
+        singleProduct.setDiscountedPrice(product.getPrice()); // Assuming discounted price is set to regular price if no discount is provided
         singleProduct.setDiscount(product.getDiscount());
 
-        Product updateProduct = productService.saveProduct(singleProduct);
+        Product updatedProduct = productService.saveProduct(singleProduct);
 
-        if (updateProduct != null) {
+        if (updatedProduct != null) {
             session.setAttribute("successMsg", "Updated Successfully");
         } else {
             session.setAttribute("errorMsg", "Something Went Wrong");
         }
         return "redirect:/admin/view_products";
     }
+
 
     @GetMapping("/delete_product/{id}")
     public String deleteProduct(@PathVariable int id, HttpSession session) {
@@ -348,6 +347,12 @@ public class AdminController {
         productService.saveProduct(product);
 
         return "redirect:/admin/view_products";
+    }
+
+    @GetMapping("/orders")
+    public String updateCategory() {
+
+        return "./admin_dashboard/view_orders";
     }
 
 

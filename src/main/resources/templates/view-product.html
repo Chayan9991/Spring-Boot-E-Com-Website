@@ -61,7 +61,13 @@
                                         <p class="small">Free Shipping</p>
                                     </div>
                                 </div>
-                                    <a th:href="@{'/add_to_cart/'+ ${product.getId()}}" class="btn fw-semibold btn-danger text-white col-12">Add To Cart</a>
+
+                                <a th:href="@{'/add_to_cart/' + ${product.getId()}}"
+                                   class="btn fw-semibold btn-danger text-white col-12"
+                                   th:classappend="${product.getStock() <= 0 ? 'disabled' : ''}">
+                                    Add To Cart
+                                </a>
+
                             </div>
                         </div>
                     </div>

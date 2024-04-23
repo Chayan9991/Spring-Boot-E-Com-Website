@@ -28,7 +28,7 @@
             <div class="col-md-2 mt-4">
                 <div class="list-group">
                     <!-- Displayed on larger screens -->
-                    <a href="#" class="fw-semibold small list-group-item list-group-item-action bg-primary text-white text-center d-none d-md-block" aria-current="false">
+                    <a href="/shop" class="fw-semibold small list-group-item list-group-item-action bg-primary text-white text-center d-none d-md-block" aria-current="false">
                         Categories
                     </a>
                     <!-- Dropdown menu -->
@@ -38,12 +38,21 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <!-- Loop over categories -->
-                            <a href="#" class="dropdown-item small" th:each="category: ${getAllCategory}" th:text="${category.name}" th:href="@{'/category/' + ${category.id}}"></a>
+                            <a class="dropdown-item small"
+                               th:each="category: ${getAllCategory}"
+                               th:text="${category.name}"
+                               th:href="@{'/shop?category=' + ${category.name.toLowerCase()}}"
+                               th:classappend="${#strings.toLowerCase(currentCategoryName) == category.name.toLowerCase()} ? 'bg-primary' : ''">
+                            </a>
                         </div>
                     </div>
-                    <div class="d-md-block d-none">
+                    <div class="d-md-block d-none rounded">
                         <!-- Loop over categories -->
-                        <a href="#" class="small list-group-item list-group-item-action" th:each="category: ${getAllCategory}" th:text="${category.name}" th:href="@{'/category/' + ${category.id}}"></a>
+                        <a class="small list-group-item list-group-item-action"
+                           th:each="category: ${getAllCategory}" th:text="${category.name}"
+                           th:href="@{'/shop?category=' + ${category.name.toLowerCase()}}"
+                           th:classappend="${#strings.toLowerCase(currentCategoryName) == category.name.toLowerCase()} ? 'text-muted fw-bold' : ''">
+                        </a>
                     </div>
                 </div>
             </div>
@@ -55,7 +64,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row gx-md-3 gx-1 gy-3" >
-                            <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${getAllProducts}">
+                            <div class="col-lg-3 col-md-4 col-sm-6" th:each="product : ${getFilterdProducts}">
                                 <div class="card shadow">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-center">

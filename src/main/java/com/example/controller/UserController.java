@@ -7,11 +7,13 @@ import com.example.service.CategoryService;
 import com.example.service.ProductService;
 import com.example.service.userService.UserService;
 import jakarta.servlet.http.HttpSession;
+import jdk.jfr.Registered;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.swing.text.html.Option;
 import java.util.*;
@@ -35,20 +37,47 @@ public class UserController {
     private CategoryService categoryService;
 
     @GetMapping("/shop")
-    public String shop(Model model, HttpSession session) {
-        List<Product> productList = productService.getAllProducts();
-        model.addAttribute("getAllProducts", productList);
+    public String shop(Model model, @RequestParam(value = "category", defaultValue = "")String cat) {
+
+        System.out.println("category= "+cat);
+
         List<Category> category = categoryService.getAllCategory();
+        List<Product> productList = productService.getAllProducts();
+
+        int categoryId = category.stream()
+                .filter(c -> c.getName().toLowerCase().equals(cat))
+                .findFirst()  // Get the first matching category
+                .map(Category::getId)  // Map it to the id of the category
+                .orElse(-1);  // Default value if no matching category found
+
+        List<Product> filterProd = productList.stream()
+                .filter(prod -> prod.getCategoryId() == categoryId)
+                .collect(Collectors.toList());
+
+        if (filterProd.isEmpty()) {
+            filterProd = productList;
+        }
+
+        System.out.println(filterProd);
+
+        model.addAttribute("getFilterdProducts", filterProd);
         model.addAttribute("getAllCategory", category);
+        model.addAttribute("currentCategoryName", cat);
         return "shop";
     }
 
+
     @GetMapping("/view-product/{id}")
-    public String product(@PathVariable int id, Model model) {
+    public String product(@PathVariable int id, Model model, HttpSession session) {
         Product product = productService.getProductById(id);
         Category category = categoryService.getCategoryById(product.getCategoryId());
         model.addAttribute("product", product);
         model.addAttribute("category", category);
+
+        // Retrieve all carts from the database
+        List<Cart> allCarts = cartService.getCart();
+        List<CartItems> allCartItems = cartItemsService.getAllCartItems();
+
         return "view-product";
     }
 
@@ -104,6 +133,19 @@ public class UserController {
                 cartItems.setProduct(product);
                 cartItems.setQuantity(1);  // By default, Prod Quantity is 1.
                 CartItems savedItem = cartItemsService.saveCartItems(cartItems);
+
+                //get the user id who add the product to the cart and store it to model
+                model.addAttribute("addCartUserId", savedItem.getCart().getUser().getUserId());
+                //get the saved productId
+                model.addAttribute("addCartProductId", savedItem.getProduct().getId());
+
+                System.out.println(savedItem.getCart().getUser().getUserId());
+                System.out.println(savedItem.getProduct().getId());
+                System.out.println(savedItem);
+
+
+               List<CartItems> allCartItems = cartItemsService.getAllCartItems();
+                session.setAttribute("allCartItems",allCartItems);
                 System.out.println("Product Is Added Successfully...");
             }
 
@@ -117,7 +159,7 @@ public class UserController {
 
     }
 
-    @GetMapping("/view_cart")
+    @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {
 
         return "view_cart";
